@@ -10,6 +10,20 @@ namespace CardGame2023SpringLearnFest
     {
         public List<Card> Cards = new List<Card>();
         
+        public List<Card> DealCards(int numOfCards)
+        {
+            List<Card> cardsDealt = new List<Card>();
+            Random rnd = new Random();
+            for (int cardsToDeal = 0; cardsToDeal < numOfCards; cardsToDeal++)
+            {
+                int cardToDeal = rnd.Next(Cards.Count);
+                Card dealtCard = Cards[cardToDeal];
+                cardsDealt.Add(dealtCard);
+                Cards.RemoveAt(cardToDeal);
+            }
+            return cardsDealt;
+        }
+
         public Deck()
         {
             for (int rank = 2; rank <= 14; rank++)
