@@ -9,7 +9,7 @@ namespace CardGame2023SpringLearnFest
     internal class Player
     {
         public string Name { get; set; } = String.Empty;
-        public List<Card> Hand { get; set; } = new List<Card>();
+        public Deck Hand { get; set; } = new Deck();
         public Player() { }
     }
 }

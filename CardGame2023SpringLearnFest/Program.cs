@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CardGame2023SpringLearnFest
@@ -18,9 +19,21 @@ namespace CardGame2023SpringLearnFest
 
             Console.Write("Please enter your name: ");
             ThisPlayer.Name = Console.ReadLine();
-            ThisPlayer.Hand = FiveCardDrawDeck.DealCards(5);
+            //ThisPlayer.Hand = FiveCardDrawDeck.DealCards(5);
+            ThisPlayer.Hand.Cards = FiveCardDrawDeck.DealCards(5);
 
-            ShowHand(ThisPlayer.Hand);
+            ShowHand(ThisPlayer.Hand.Cards);
+
+            Console.WriteLine($"The player {(ThisPlayer.Hand.CheckForPairs() ? "has" : "does not have")} a pair.");
+
+            //bool aceInHand = ThisPlayer.Hand.Exists(d => d.Rank == "A");
+            //int numOfAces = (from c in ThisPlayer.Hand
+            //                 where c.Rank == "A"
+            //                 select c).Count();
+            //Console.WriteLine($"The player {(numOfAces > 0 ? "has" : "does not have")} an Ace.");
+
+
+
 
             bool quitGame = false;
             do
@@ -42,7 +55,7 @@ namespace CardGame2023SpringLearnFest
                         continue;
                     } else
                     {
-                        ReplaceCards(replaceCardNum, ThisPlayer.Hand, FiveCardDrawDeck);
+                        ReplaceCards(replaceCardNum, ThisPlayer.Hand.Cards, FiveCardDrawDeck);
                     }
                 } else
                 {
@@ -53,7 +66,7 @@ namespace CardGame2023SpringLearnFest
             } while (!quitGame);
 
             Console.Clear();
-            ShowHand(ThisPlayer.Hand);
+            ShowHand(ThisPlayer.Hand.Cards);
 
         }
 

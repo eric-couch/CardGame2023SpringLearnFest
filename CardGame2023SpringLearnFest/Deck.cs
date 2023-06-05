@@ -10,6 +10,17 @@ namespace CardGame2023SpringLearnFest
     {
         public List<Card> Cards = new List<Card>();
         
+        public bool CheckForPairs()
+        {
+            var cardGroups = from c in Cards
+                             group c by new { c.Rank } into g
+                             select new { rank = g.Key, count = g.Count() };
+
+            // using Linq how do we determine if we have a group where count = 2?
+            return cardGroups.Where(c => c.count == 2).Any();
+            //return cardGroups.Where(c => c.count == 2).Count() > 0;
+        }
+
         public List<Card> DealCards(int numOfCards)
         {
             List<Card> cardsDealt = new List<Card>();
