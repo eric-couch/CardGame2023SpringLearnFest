@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CardGame2023SpringLearnFest
 {
-    internal class Card
+    public class Card
     {
         
         public string Suit { get; set; }
@@ -20,7 +20,7 @@ namespace CardGame2023SpringLearnFest
         /// </summary>
         /// <param name="suit">Spades, Hearts, Clubs, Diamonds</param>
         /// <param name="rank">Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King</param>
-        public Card(string suit, string rank, int val)
+        public Card(string rank, string suit, int val)
         {
             Suit = suit;
             Rank = rank;

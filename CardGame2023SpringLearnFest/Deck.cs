@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace CardGame2023SpringLearnFest
 {
-    internal class Deck
+    public class Deck
     {
-        public List<Card> Cards = new List<Card>();
-        
+        //public List<Card> Cards = new List<Card>();
+        public List<Card> Cards { get; set; } = new List<Card>();
+
         public bool CheckForPairs()
         {
             var cardGroups = from c in Cards
@@ -18,7 +19,11 @@ namespace CardGame2023SpringLearnFest
 
             // using Linq how do we determine if we have a group where count = 2?
             return cardGroups.Where(c => c.count == 2).Any();
-            //return cardGroups.Where(c => c.count == 2).Count() > 0;
+        }
+
+        public bool HasThreeOfAKind()
+        {
+            return Cards.GroupBy(card => card.Val).Any(group => group.Count() == 3);
         }
 
         public List<Card> DealCards(int numOfCards)
@@ -37,48 +42,22 @@ namespace CardGame2023SpringLearnFest
 
         public Deck()
         {
-            for (int rank = 2; rank <= 14; rank++)
-            {
-                for (int suit=0;suit<4;suit++)
-                {
-                    string convertedRank = String.Empty;
-                    string convertedSuit = String.Empty;
+            ResetDeck();
+        }
+        
+        public void ResetDeck()
+        {
+            Cards.Clear();
+            List<string> suits = new List<string>() { "♠", "♣", "♥", "♦" };
+            List<string> ranks = new List<string>() { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
+            List<int> values = new List<int>() { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 
-                    switch (rank)
-                    {
-                        case 11:
-                            convertedRank = "J";
-                            break;
-                        case 12:
-                            convertedRank = "Q";
-                            break;
-                        case 13:
-                            convertedRank = "K";
-                            break;
-                        case 14:
-                            convertedRank = "A";
-                            break;
-                        default:
-                            convertedRank = rank.ToString();
-                            break;
-                    }
-                    switch (suit)
-                    {
-                        case 0:
-                            convertedSuit = "♠";
-                            break;
-                        case 1:
-                            convertedSuit = "♣";
-                            break;
-                        case 2:
-                            convertedSuit = "♥";
-                            break;
-                        default:
-                            convertedSuit = "♦";
-                            break;
-                    }
-                    Card currentCard = new Card(convertedSuit, convertedRank, rank);
-                    Cards.Add(currentCard);
+            foreach (var suit in suits)
+            {
+                foreach (var rank in ranks)
+                {
+                    Card card = new Card(rank, suit, values[ranks.IndexOf(rank)]);
+                    Cards.Add(card);
                 }
             }
         }
