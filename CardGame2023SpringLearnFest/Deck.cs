@@ -26,6 +26,13 @@ namespace CardGame2023SpringLearnFest
             return Cards.GroupBy(card => card.Val).Any(group => group.Count() == 3);
         }
 
+        // build a method to test for four of a kind
+        // build a method to find the values of the pairs
+        // build a method to find the values of the three of a kind
+        // build a method to test for full house (one pair and three of a kind)
+        // build a method to test for a straight (five cards in a row.  five cards with ascending values)
+        // e.g. 4, 5, 6, 7, 8 or 10, J, Q, K, A or A, 2, 3, 4, 5
+
         public List<Card> DealCards(int numOfCards)
         {
             List<Card> cardsDealt = new List<Card>();
