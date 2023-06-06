@@ -55,9 +55,18 @@ namespace CardGame2023SpringLearnFest
             }
 
             var sortedHand = Cards.OrderBy(card => card.Val).Select(c => c.Val).ToList();
-            int firstCard = sortedHand.FirstOrDefault();
-            var expectedHand = Enumerable.Range(firstCard, 5).ToList();
-            return sortedHand.SequenceEqual(expectedHand);
+            for (int i =0; i < sortedHand.Count - 1; i++)
+            {
+                if (sortedHand[i+1] - sortedHand[i] !=1)
+                {
+                    return false;
+                }
+            }
+            return true;
+            //int firstCard = sortedHand.FirstOrDefault();
+            //var expectedHand = Enumerable.Range(firstCard, 5).ToList();
+            //return sortedHand.SequenceEqual(expectedHand);
+
 
         }
 
