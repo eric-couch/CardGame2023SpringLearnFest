@@ -24,7 +24,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("10", "♥", 10),
                 new Card("A", "♠", 14)
             };
-            bool pairInHand = myDeck.CheckForPairs();
+            bool? pairInHand = myDeck.CheckForPairs();
             Assert.IsTrue(pairInHand);
         }
 
@@ -40,7 +40,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("9", "♥", 9),
                 new Card("A", "♠", 14)
             };
-            bool pairInHand = myDeck.CheckForPairs();
+            bool? pairInHand = myDeck.CheckForPairs();
             Assert.IsFalse(pairInHand);
         }
 
@@ -56,7 +56,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("10", "♥", 10),
                 new Card("A", "♠", 14)
             };
-            bool threeOfAKindInHand = myDeck.HasThreeOfAKind();
+            bool? threeOfAKindInHand = myDeck.HasThreeOfAKind();
             Assert.IsTrue(threeOfAKindInHand);
         }
 
@@ -72,7 +72,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("9", "♥", 9),
                 new Card("A", "♠", 14)
             };
-            bool threeOfAKindInHand = myDeck.HasThreeOfAKind();
+            bool? threeOfAKindInHand = myDeck.HasThreeOfAKind();
             Assert.IsFalse(threeOfAKindInHand);
         }
 
@@ -88,7 +88,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("10", "♥", 10),
                 new Card("A", "♠", 14)
             };
-            bool fourOfAKindInHand = myDeck.HasFourOfAKind();
+            bool? fourOfAKindInHand = myDeck.HasFourOfAKind();
             Assert.IsTrue(fourOfAKindInHand);
         }
 
@@ -104,7 +104,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("9", "♥", 9),
                 new Card("A", "♠", 14)
             };
-            bool fourOfAKindInHand = myDeck.HasFourOfAKind();
+            bool? fourOfAKindInHand = myDeck.HasFourOfAKind();
             Assert.IsFalse(fourOfAKindInHand);
         }
 
@@ -120,8 +120,14 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("10", "♥", 10),
                 new Card("A", "♠", 14)
             };
-            List<string> pairsInHand = myDeck.ReturnPairRanks();
-            Assert.AreEqual("10", pairsInHand.FirstOrDefault());
+            List<string>? pairsInHand = myDeck.ReturnPairRanks();
+            if (pairsInHand?.Any() == true) {
+                Assert.AreEqual("10", pairsInHand.FirstOrDefault()!);
+             } else
+            {
+                Assert.Fail();
+            }
+            
         }
 
         [Test]
@@ -136,8 +142,15 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("9", "♥", 9),
                 new Card("A", "♠", 14)
             };
-            List<string> pairsInHand = myDeck.ReturnPairRanks();
-            Assert.IsEmpty(pairsInHand);
+            List<string>? pairsInHand = myDeck.ReturnPairRanks();
+            if (!pairsInHand?.Any() == true)
+            {
+                Assert.IsEmpty(pairsInHand);
+            }
+            else
+            {
+                Assert.Fail();
+            }
         }
 
         [Test]
@@ -152,10 +165,16 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("10", "♥", 10),
                 new Card("A", "♠", 14)
             };
-            List<string> pairsInHand = myDeck.ReturnPairRanks();
-            Assert.AreEqual(2, pairsInHand.Count);
-            Assert.AreEqual("10", pairsInHand[0]);
-            Assert.AreEqual("5", pairsInHand[1]);
+            List<string>? pairsInHand = myDeck.ReturnPairRanks();
+            if (!pairsInHand?.Any() == true)
+            {
+                Assert.AreEqual(2, pairsInHand.Count);
+                Assert.AreEqual("10", pairsInHand[0]);
+                Assert.AreEqual("5", pairsInHand[1]);
+            } else
+            {
+                Assert.Fail();
+            }
         }
 
         [Test]
@@ -170,7 +189,8 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("8", "♥", 8),
                 new Card("9", "♠", 9)
             };
-            Assert.IsTrue(myDeck.IsStraight());
+            bool? isStraightInHand = myDeck.IsStraight();
+            Assert.IsTrue(isStraightInHand);
         }
 
         [Test]
