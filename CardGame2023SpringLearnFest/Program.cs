@@ -22,12 +22,11 @@ namespace CardGame2023SpringLearnFest
 
             Console.Write("Please enter your name: ");
             ThisPlayer.Name = Console.ReadLine();
-            //ThisPlayer.Hand = FiveCardDrawDeck.DealCards(5);
             ThisPlayer.Hand.Cards = FiveCardDrawDeck.DealCards(5);
 
             ShowHand(ThisPlayer.Hand.Cards);
 
-            Console.WriteLine($"The player {(ThisPlayer.Hand.CheckForPairs() ? "has" : "does not have")} a pair.");
+            Console.WriteLine($"The player {(ThisPlayer.Hand.CheckForPairs() ?? false ? "has" : "does not have")} a pair.");
 
             //bool aceInHand = ThisPlayer.Hand.Exists(d => d.Rank == "A");
             //int numOfAces = (from c in ThisPlayer.Hand
