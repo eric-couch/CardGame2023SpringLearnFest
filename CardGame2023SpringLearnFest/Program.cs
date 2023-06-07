@@ -7,6 +7,18 @@ using System.Collections.Generic;
 
 namespace CardGame2023SpringLearnFest
 {
+    enum Hands
+    {
+        HighCard,
+        Pair,
+        TwoPair,
+        ThreeOfAKind,
+        Straight,
+        Flush,
+        FullHouse,
+        FourOfAKind,
+        StraightFlush
+    }
     internal class Program
     {
         static void Main(string[] args)
@@ -24,15 +36,14 @@ namespace CardGame2023SpringLearnFest
             ThisPlayer.Name = Console.ReadLine();
             ThisPlayer.Hand.Cards = FiveCardDrawDeck.DealCards(5);
 
-            ShowHand(ThisPlayer.Hand.Cards);
+            ThisPlayer.Hand.ShowHand();
 
-            Console.WriteLine($"The player {(ThisPlayer.Hand.CheckForPairs() ?? false ? "has" : "does not have")} a pair.");
 
-            //bool aceInHand = ThisPlayer.Hand.Exists(d => d.Rank == "A");
-            //int numOfAces = (from c in ThisPlayer.Hand
-            //                 where c.Rank == "A"
-            //                 select c).Count();
-            //Console.WriteLine($"The player {(numOfAces > 0 ? "has" : "does not have")} an Ace.");
+            // check for various poker hands
+            string playerHand = TestHand(ThisPlayer.Hand);
+            Console.WriteLine($"The player has a {playerHand}");
+
+
 
 
 
@@ -68,25 +79,47 @@ namespace CardGame2023SpringLearnFest
             } while (!quitGame);
 
             Console.Clear();
-            ShowHand(ThisPlayer.Hand.Cards);
+            ThisPlayer.Hand.ShowHand();
+            playerHand = TestHand(ThisPlayer.Hand);
+            Console.WriteLine($"The player has a {playerHand}");
 
         }
 
-
-
-        public static void ShowHand(List<Card> cardsToShow)
+        public static string TestHand(Deck playerHand)
         {
-            int cardNum = 1;
-            string cardPos = string.Empty;
-            foreach (Card card in cardsToShow)
-            {
-                Console.Write($"{card.ToString()}\t");
-                cardPos += $"({cardNum++})\t";
-            }
-            Console.WriteLine($"\n{cardPos}\n");
-            return;
-        }
+            string PlayerHand = "high card";
+            bool? isFlushInHand = playerHand.IsFlush();
+            bool? isStraightInHand = playerHand.IsStraight();
+            bool? isFourOfAKind = playerHand.HasFourOfAKind();
+            bool? isThreeOfAKind = playerHand.HasThreeOfAKind();
+            bool? isPair = playerHand.HasPairs();
 
+            if (isFlushInHand is not null && isStraightInHand is not null && (bool)isFlushInHand && (bool)isStraightInHand)
+            {
+                PlayerHand = "Straight-Flush";
+            }
+            else if (isFourOfAKind is not null && (bool)isFourOfAKind)
+            {
+                PlayerHand = "Four of a kind";
+            }
+            else if (isThreeOfAKind is not null && isPair is not null && (bool)isThreeOfAKind && (bool)isPair)
+            {
+                PlayerHand = "Fullhouse";
+            }
+            else if (isFlushInHand is not null && (bool)isFlushInHand)
+            {
+                PlayerHand = "Flush";
+            }
+            else if (isThreeOfAKind is not null && (bool)isThreeOfAKind)
+            {
+                PlayerHand = "Three of a Kind";
+            }
+            else if (isPair is not null && (bool)isPair)
+            {
+                PlayerHand = "Pair";
+            }
+            return PlayerHand;
+        }
         public static void ReplaceCards(int numOfCardsToReplace, List<Card> CardsInHand, Deck DeckToDealFrom)
         {
             for (int replaceCardCounter = 0; replaceCardCounter < numOfCardsToReplace; replaceCardCounter++ )

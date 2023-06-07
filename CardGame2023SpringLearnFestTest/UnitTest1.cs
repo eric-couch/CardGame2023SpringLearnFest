@@ -24,7 +24,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("10", "♥", 10),
                 new Card("A", "♠", 14)
             };
-            bool? pairInHand = myDeck.CheckForPairs();
+            bool? pairInHand = myDeck.HasPairs();
             Assert.IsTrue(pairInHand);
         }
 
@@ -40,7 +40,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("9", "♥", 9),
                 new Card("A", "♠", 14)
             };
-            bool? pairInHand = myDeck.CheckForPairs();
+            bool? pairInHand = myDeck.HasPairs();
             Assert.IsFalse(pairInHand);
         }
 
@@ -166,7 +166,7 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("A", "♠", 14)
             };
             List<string>? pairsInHand = myDeck.ReturnPairRanks();
-            if (!pairsInHand?.Any() == true)
+            if (pairsInHand?.Any() == true)
             {
                 Assert.AreEqual(2, pairsInHand.Count);
                 Assert.AreEqual("10", pairsInHand[0]);
@@ -206,6 +206,88 @@ namespace CardGame2023SpringLearnFestTest
                 new Card("9", "♠", 9)
             };
             Assert.IsFalse(myDeck.IsStraight());
+        }
+
+        [Test]
+        public void TestForFlush()
+        {
+            Deck myDeck = new Deck();
+            myDeck.Cards = new List<Card>()
+            {
+                new Card("5", "♥", 5),
+                new Card("2", "♥", 2),
+                new Card("7", "♥", 7),
+                new Card("Q", "♥", 12),
+                new Card("9", "♥", 9)
+            };
+            bool? isFlushInHand = myDeck.IsFlush();
+            Assert.IsTrue(isFlushInHand);
+        }
+
+        [Test]
+        public void TestForNotFlush()
+        {
+            Deck myDeck = new Deck();
+            myDeck.Cards = new List<Card>()
+            {
+                new Card("5", "♦", 5),
+                new Card("6", "♠", 6),
+                new Card("7", "♥", 7),
+                new Card("8", "♥", 8),
+                new Card("9", "♠", 9)
+            };
+            bool? isFlushInHand = myDeck.IsFlush();
+            Assert.IsFalse(isFlushInHand);
+        }
+
+        [Test]
+        public void TestForStraightFlush()
+        {
+            Deck myDeck = new Deck();
+            myDeck.Cards = new List<Card>()
+            {
+                new Card("5", "♥", 5),
+                new Card("6", "♥", 6),
+                new Card("7", "♥", 7),
+                new Card("8", "♥", 8),
+                new Card("9", "♥", 9)
+            };
+            bool? isFlushInHand = myDeck.IsFlush();
+            bool? isStraightInHand = myDeck.IsStraight();
+            if (isFlushInHand is not null && isStraightInHand is not null) 
+            {
+                bool isStaightFlush = (bool)isFlushInHand && (bool)isStraightInHand;
+                Assert.IsTrue(isStaightFlush);
+            } else
+            {
+                Assert.Fail();
+            }
+            
+        }
+
+        [Test]
+        public void TestForNotStraightFlush()
+        {
+            Deck myDeck = new Deck();
+            myDeck.Cards = new List<Card>()
+            {
+                new Card("5", "♦", 5),
+                new Card("6", "♠", 6),
+                new Card("7", "♥", 7),
+                new Card("8", "♥", 8),
+                new Card("9", "♠", 9)
+            };
+            bool? isFlushInHand = myDeck.IsFlush();
+            bool? isStraightInHand = myDeck.IsStraight();
+            if (isFlushInHand is not null && isStraightInHand is not null)
+            {
+                bool isStaightFlush = (bool)isFlushInHand && (bool)isStraightInHand;
+                Assert.IsFalse(isStaightFlush);
+            }
+            else
+            {
+                Assert.Fail();
+            }
         }
     }
 }

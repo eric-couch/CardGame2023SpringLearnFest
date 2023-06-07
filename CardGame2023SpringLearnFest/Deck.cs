@@ -11,7 +11,7 @@ namespace CardGame2023SpringLearnFest
         //public List<Card> Cards = new List<Card>();
         public List<Card> Cards { get; set; } = new List<Card>();
 
-        public bool? CheckForPairs()
+        public bool? HasPairs()
         {
             try
             {
@@ -101,6 +101,19 @@ namespace CardGame2023SpringLearnFest
             }
         }
 
+        public bool? IsFlush()
+        {
+            try
+            {
+                bool? result = Cards.GroupBy(card => card.Suit).Any(group => group.Count() == 5);
+                return result;
+            } catch (Exception Ex )
+            {
+                Console.WriteLine($"An error occured.  Error message: {Ex.Message}");
+                return null;
+            }
+        }
+
         public List<Card> DealCards(int numOfCards)
         {
             List<Card> cardsDealt = new List<Card>();
@@ -113,6 +126,19 @@ namespace CardGame2023SpringLearnFest
                 Cards.RemoveAt(cardToDeal);
             }
             return cardsDealt;
+        }
+
+        public void ShowHand()
+        {
+            int cardNum = 1;
+            string cardPos = string.Empty;
+            foreach (Card card in Cards)
+            {
+                Console.Write($"{card.ToString()}\t");
+                cardPos += $"({cardNum++})\t";
+            }
+            Console.WriteLine($"\n{cardPos}\n");
+            return;
         }
 
         public Deck()
